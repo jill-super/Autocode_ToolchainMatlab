@@ -1,0 +1,39 @@
+---
+title: MIL workflow
+description: Normal and Batch modes, gating checks, plots, reports and delivery folders.
+---
+
+import MilFlow from '../../../components/MilFlow.astro';
+
+```matlab
+MIL
+```
+
+The `MIL` GUI (`MIL.m` + `MIL.fig`) performs Model-In-the-Loop validation. It refuses to start on bad inputs — test-definition errors are reported first via the `NxtrTD*` checks ([Test definition files](test-definition/)) and harness problems via `NxtrMdlChkr`.
+
+## Flow
+
+<MilFlow />
+
+## Modes
+
+### Normal mode — develop, then finalize
+
+- **Test-plan development:** add a test case, execute, analyze (`PlotSimData`, `SaveSimData`); edit or add the next case. Options include case count, robustness tests, plots, reports and saving cases as files.
+- **Final validation:** exactly one FDD. Options are preset by the tool; it creates the delivery folder (`<FDDName>_<FDDShortName>_MIL`) with every artifact automatically.
+
+### Batch mode — many FDDs unattended
+
+- All FDD inputs live in one folder; the tool validates each in turn.
+- An error in one FDD is recorded and the run continues with the next.
+- Output: a dated log (`MIL_BatchMode_<date>_log.txt`) plus a dated delivery folder with all artifacts.
+
+## Before / during / after
+
+| Phase | Tools working for you |
+| --- | --- |
+| Before | `NxtrTDChkr` (definition completeness), `NxtrReadTD`/`NxtrReadDD`/`NxtrReadMdl` (parse inputs), `NxtrMdlChkr` (harness block settings — auto-corrects outside the unit under test), `NxtrMaskList` (coverage exclusions), `NxtrPrevFileDel` (clean slate) |
+| During | Imported calibrations and config parameters are varied per case; multi-dimensional signals are supported; test vectors persist as `.xlsx` |
+| After | Plots, verification/inspection reports (`NxtrRprtDataGenr`, peer-review checklists), coverage handling, report naming/management (`NxtrRprtMgr`, `NxtrRprtNameGenr`, `NxtrSumryTblGenr`, `NxtrTCRGenr`) |
+
+Next: [SIL & helpers](sil-and-helpers/).

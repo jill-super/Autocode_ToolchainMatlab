@@ -1,0 +1,40 @@
+---
+title: FAQ
+description: Answers to the questions every newcomer asks.
+---
+
+## Which program type do I pick — EA3 or EA4?
+
+Whichever your component targets. Everything (dictionary program argument, blocks, enums, test artifacts) must match it. `NxtrWrgUsgChk` and `NxtrElecArchTypFindr` exist precisely because mixing them is the most common mistake.
+
+## CreateDD overwrote my dictionary — can I get it back?
+
+No — `CreateDD` overwrites unconditionally. Regenerate from the workspace objects (the supported path) and keep dictionaries under version control so any revision is recoverable.
+
+## VerifyDD reports hundreds of findings — where do I start?
+
+In this order: FDD identity/naming → unknown keywords → datatype approvals → property values → model/dictionary mismatches. Early categories cascade into later ones, so re-run after each fix round.
+
+## MIL won't start and points at the test definition. What now?
+
+Run the gates directly: `NxtrTDMgr('MyTestDef')` orchestrates the chain, `NxtrTDChkr` reports completeness, `NxtrMdlChkr` fixes harness settings. MIL starts once they pass.
+
+## Should I use Run_MIL?
+
+No. It is a retired stub that redirects to `MIL`. Likewise prefer current hubs (`STool`, `NxtrTDMgr`) over calling inner helpers directly.
+
+## Plots look wrong but MIL passed. What should I check?
+
+`NxtrMdlChkr` skips the unit under test by design — verify the design subsystem itself, then check `dt.*` widths on interpolation blocks and `SaveSimData`/`PlotSimData` IO mapping.
+
+## A library block is missing from the browser. How do I fix it?
+
+Confirm the program folder is on the path with `genpath` (see [Getting started](../getting-started/)) and that `slblocks.m` registration is visible. EA3, EA4, NVM and development families each register their own node under the top library.
+
+## How do I add a new fixed-point type?
+
+Add the `+dt/@<name>/` class, add the alias entry, add the `NxtrDTTbl` row so `NxtrDTMgr` accepts it, and confirm `VerifyDD` passes on a trial dictionary. See [Helpers & aliases](../data-management/common-functions/).
+
+## Where do I publish this site?
+
+You own the workflow: build `docs/` (`npm run build` → `docs/dist/`) and deploy the artifact. For sub-path hosting set `DOCS_BASE="/<project>/"` at build time only — nothing is hard-coded in the source.

@@ -1,0 +1,42 @@
+---
+title: Changelog
+description: Version landmarks per toolbox area and where to read full history.
+---
+
+Each area versions independently and keeps its full log in-tree. This page summarizes the landmarks; the `.m` files are authoritative.
+
+## Current releases
+
+| Area | Version | History file |
+| --- | --- | --- |
+| Data management | v3.0.0 | `Data_Management v3.0.0/History_DataMgt.m` |
+| Tools (design + testing) | v3.0.0 | `Tools v3.0.0/History_Tools.m` |
+| Utilities libraries | v5.0.0 | `Nexteer_Utilities v5.0.0/History_NxtrUtil.m` |
+
+## Data management — road to v3.0.0
+
+- **v1.x** — Initial `DataDict` classes, base-type wrappers, `Val2String`/`MinMax2String` helpers, first enums and structs.
+- **v2.x (long arc)** — `ConfigParam`, `CSReturn`/`CSArguments` client/server modeling, `ImprtdCal` for shared calibrations, `NTC` diagnostics classes, `Sig`/`Prm` development classes, array-of-struct support, description requirements, and steady `VerifyDD` co-evolution.
+- **v3.0.0** — Runnable / server-runnable modeling enabled across program types.
+
+## Tools — road to v3.0.0
+
+- **v1.x** — `CreateDD`/`VerifyDD` foundations, keyword checking, requirements reporting, `MIL` normal/batch modes, test-definition gating, LCT/test-cal scaffolding.
+- **v2.0–v2.2** — New `STool` integrated hub (design packages, peer-review checklists, inspection reports), development-dictionary support, multi-dimensional signals with `.xlsx` vectors, verification-report automation.
+- **v2.3–v2.5** — Runnable-aware generation and checks, AUTOSAR/EA signal search tools, batch-mode logging.
+- **v3.0.0** — Runnable / server-runnable support across program types, unsaved-changes guard in `VerifyDD`.
+
+## Utilities — road to v5.0.0
+
+- **v1–v2** — Initial blocks, rate-limiter and filter precision fixes.
+- **v3–v4** — EA4 library family, interpolation (static + dynamic tables), fixed-point conversion blocks, filter rework, `TblSize` support, NVM client library.
+- **v4.3–v4.11** — Dynamic table lookup, bilinear interpolation updates, NVM error-status fix, sine lookup, development-library reorganization, IMC client blocks.
+- **v5.0.0** — Transposed-matrix bilinear blocks and updated sine-lookup constant.
+
+## How to read a history file
+
+```matlab
+open History_Tools.m   % entries: ver, log, date — newest last
+```
+
+When upgrading a path, read the entries *after* your current version in each area you use, then re-run `VerifyDD` and one MIL pass before adopting broadly.

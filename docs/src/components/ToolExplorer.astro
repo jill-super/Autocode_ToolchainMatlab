@@ -1,0 +1,143 @@
+---
+// Interactive searchable catalog of every Design + Testing tool.
+// Plain client-side JS — no framework needed.
+const tools = [
+  // ---- Design tools ----
+  { name: 'CreateDD', area: 'Design', kind: 'Dictionary', summary: 'Build a component data-dictionary .m file from workspace variables (EA3/EA4).' },
+  { name: 'VerifyDD', area: 'Design', kind: 'Dictionary', summary: 'Check dictionary quality: naming, property rules, model/dictionary consistency.' },
+  { name: 'STool', area: 'Design', kind: 'Hub', summary: 'GUI hub for the design-package flow: dictionary, reports, Model Advisor, packaging.' },
+  { name: 'NxtrDDGenr', area: 'Design', kind: 'Dictionary', summary: 'Regenerate a dictionary file from the current dictionary in the folder.' },
+  { name: 'NxtrDDRprtGenr', area: 'Design', kind: 'Report', summary: 'Auto-create a dictionary verification report for the design package.' },
+  { name: 'NxtrDTMgr', area: 'Design', kind: 'Datatype', summary: 'Validate a user data type against the approved tools list.' },
+  { name: 'NxtrDTTbl', area: 'Design', kind: 'Datatype', summary: 'The approved user-defined datatype table used across programs.' },
+  { name: 'NxtrKeyWrdChk', area: 'Design', kind: 'Keyword', summary: 'Keyword check hook for CreateDD (fill long names) and VerifyDD (unknown keywords).' },
+  { name: 'NxtrKeyWrdMgr', area: 'Design', kind: 'Keyword', summary: 'Collect unknown keywords used inside a signal or parameter name.' },
+  { name: 'NxtrKeyWrdRpt', area: 'Design', kind: 'Keyword', summary: 'Report a name against the unknown-keyword list during dictionary creation.' },
+  { name: 'NxtrAbbListBldr', area: 'Design', kind: 'Keyword', summary: 'Build the abbreviation list that backs keyword checking.' },
+  { name: 'NxtrFindFDDMdl', area: 'Design', kind: 'Discovery', summary: 'Find the FDD model plus its dictionary and simulation setup files.' },
+  { name: 'NxtrChkFDDData', area: 'Design', kind: 'Discovery', summary: 'Report which FDDs have their required artifacts present.' },
+  { name: 'NxtrFDDNoNmeGenr', area: 'Design', kind: 'Discovery', summary: 'Generate FDD number/name metadata.' },
+  { name: 'NxtrElecArchTypFindr', area: 'Design', kind: 'Discovery', summary: 'Detect the electrical-architecture type (EA3/EA4).' },
+  { name: 'NxtrFileMgr', area: 'Design', kind: 'Packaging', summary: 'Track newly generated files and remove intermediate clutter.' },
+  { name: 'NxtrPckGen', area: 'Design', kind: 'Packaging', summary: 'Assemble Design or MIL setup folders with all required artifacts.' },
+  { name: 'NxtrReqRprtGen', area: 'Design', kind: 'Report', summary: 'Generate the requirements report from the FDD model and requirements tool.' },
+  { name: 'NxtrMdlAdvsrRprtGenr', area: 'Design', kind: 'Report', summary: 'Generate the Model Advisor report for the design package.' },
+  { name: 'NxtrCosmeticUpdr', area: 'Design', kind: 'Model', summary: 'Apply cosmetic updates to models.' },
+  { name: 'NxtrWrgUsgChk', area: 'Design', kind: 'Model', summary: 'Flag program-specific enums/structs used in the wrong program (EA3 vs EA4).' },
+  { name: 'NxtrXlsRead', area: 'Design', kind: 'Keyword', summary: 'Read keyword/abbreviation Excel lists (abbreviations, exclusion list).' },
+  { name: 'NxtrToolsPahFindr', area: 'Design', kind: 'Infra', summary: 'Locate the tools path on the MATLAB search path.' },
+  { name: 'NxtrToolsVersFindr', area: 'Design', kind: 'Infra', summary: 'Resolve the latest available tools version.' },
+  { name: 'NxtrLicChkOut', area: 'Design', kind: 'Infra', summary: 'Check out the toolboxes needed for the design package.' },
+  { name: 'NxtrLnchDoors', area: 'Design', kind: 'Traceability', summary: 'Launch/hook for the requirements-management tool.' },
+  { name: 'NxtrUpdRpt', area: 'Design', kind: 'Report', summary: 'Update-report helper used inside package generation.' },
+  { name: 'NxtrWebViewGenr', area: 'Design', kind: 'Report', summary: 'Web-view generation helper for model reports.' },
+  // ---- Testing tools ----
+  { name: 'MIL', area: 'Testing', kind: 'Validation', summary: 'GUI for MIL validation in Normal mode (plan development, final) and Batch mode.' },
+  { name: 'Run_MIL', area: 'Testing', kind: 'Validation', summary: 'Deprecated stub — use MIL for Model-In-the-Loop validation.' },
+  { name: 'Run_SIL', area: 'Testing', kind: 'Validation', summary: 'Run SIL from a test-definition file plus a SIL harness.' },
+  { name: 'MakeTestCals', area: 'Testing', kind: 'Test setup', summary: 'Create a unit-test-plan parameter-file template from dictionary file(s).' },
+  { name: 'CreateLCTFiles', area: 'Testing', kind: 'Test setup', summary: 'Create LCT interface files (e.g. calibration headers) from dictionaries.' },
+  { name: 'NxtrTDMgr', area: 'Testing', kind: 'Test setup', summary: 'Orchestrate test-definition parsing and verification tools.' },
+  { name: 'NxtrTDChkr', area: 'Testing', kind: 'Test setup', summary: 'Verify a test-definition file has everything MIL needs; blocks MIL until clean.' },
+  { name: 'NxtrReadTD', area: 'Testing', kind: 'Test setup', summary: 'Parse a test-definition file and extract MIL inputs.' },
+  { name: 'NxtrReadDD', area: 'Testing', kind: 'Test setup', summary: 'Extract input-signal lists from an FDD data dictionary.' },
+  { name: 'NxtrReadMdl', area: 'Testing', kind: 'Test setup', summary: 'Extract signal lists from the unit-test harness model.' },
+  { name: 'NxtrMdlChkr', area: 'Testing', kind: 'Validation', summary: 'Check (and auto-correct) harness block settings outside the unit under test.' },
+  { name: 'NxtrMaskList', area: 'Testing', kind: 'Validation', summary: 'Registry of library masks, e.g. blocks excluded from coverage.' },
+  { name: 'NxtrSigFindr', area: 'Testing', kind: 'Search', summary: 'Signal finder helper for test/report flows.' },
+  { name: 'NxtrKeyWrdFindr', area: 'Testing', kind: 'Search', summary: 'Keyword finder helper for test/report flows.' },
+  { name: 'NxtrWrdFindrGUI', area: 'Testing', kind: 'Search', summary: 'GUI word-finder for reports and dictionaries.' },
+  { name: 'NxtrRprtMgr', area: 'Testing', kind: 'Report', summary: 'Manage the MIL report-generation pipeline.' },
+  { name: 'NxtrRprtDataGenr', area: 'Testing', kind: 'Report', summary: 'Generate report/inspection data, including extended inspection content.' },
+  { name: 'NxtrRprtNameGenr', area: 'Testing', kind: 'Report', summary: 'Generate consistent report file names.' },
+  { name: 'NxtrSumryTblGenr', area: 'Testing', kind: 'Report', summary: 'Generate summary tables for reports.' },
+  { name: 'NxtrTCRGenr', area: 'Testing', kind: 'Report', summary: 'Generate the test-completion record content.' },
+  { name: 'NxtrWrdRprtGenr', area: 'Testing', kind: 'Report', summary: 'Generate Word-format reports.' },
+  { name: 'NxtrAddTbl', area: 'Testing', kind: 'Report', summary: 'Add tables to generated reports.' },
+  { name: 'NxtrAddHLinks', area: 'Testing', kind: 'Report', summary: 'Add hyperlinks to generated reports.' },
+  { name: 'NxtrAddTags', area: 'Testing', kind: 'Report', summary: 'Add tags to generated reports.' },
+  { name: 'NxtrTblDataUpdr', area: 'Testing', kind: 'Report', summary: 'Update table data inside reports.' },
+  { name: 'NxtrXlsWrite', area: 'Testing', kind: 'Report', summary: 'Write FDD model info to Excel files.' },
+  { name: 'NxtrReqAnlyzr', area: 'Testing', kind: 'Report', summary: 'Requirements-analysis helper for the test flow.' },
+  { name: 'PlotSimData', area: 'Testing', kind: 'Analysis', summary: 'Plot unit-test simulation data per test case.' },
+  { name: 'SaveSimData', area: 'Testing', kind: 'Analysis', summary: 'Save simulation input/output vectors to data files.' },
+  { name: 'simulink2doors', area: 'Testing', kind: 'Traceability', summary: 'Export design-model links to CSV for import into the requirements tool.' },
+  { name: 'testdef2doors', area: 'Testing', kind: 'Traceability', summary: 'Export test-definition links to CSV for import into the requirements tool.' },
+  { name: 'NxtrPrevFileDel', area: 'Testing', kind: 'Infra', summary: 'Delete previous-run files before a fresh validation.' },
+];
+
+const kinds = ['All', ...new Set(tools.map((t) => t.kind))].sort((a, b) =>
+  a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b),
+);
+---
+
+<div class="tool-explorer" data-tool-explorer>
+  <input class="searchbox" type="search" placeholder="Filter tools — try “report”, “keyword”, “MIL”…" aria-label="Filter tools" data-search />
+  <div class="pill-row" data-pills>
+    <button class="pill" data-area="All" aria-pressed="true">All</button>
+    <button class="pill" data-area="Design" aria-pressed="false">Design</button>
+    <button class="pill" data-area="Testing" aria-pressed="false">Testing</button>
+  </div>
+  <div class="pill-row" data-kind-pills>
+    {kinds.map((k) => (
+      <button class="pill" data-kind={k} aria-pressed={k === 'All' ? 'true' : 'false'}>{k}</button>
+    ))}
+  </div>
+  <p data-count aria-live="polite"></p>
+  <div class="tool-grid" data-grid>
+    {tools.map((t) => (
+      <article class="tool-card" data-name={t.name.toLowerCase()} data-area={t.area} data-kind={t.kind} data-summary={t.summary.toLowerCase()}>
+        <h3><code>{t.name}</code></h3>
+        <p>{t.summary}</p>
+        <p><span class="pill">{t.area}</span> <span class="pill">{t.kind}</span></p>
+      </article>
+    ))}
+  </div>
+</div>
+
+<script>
+  (() => {
+    const root = document.querySelector('[data-tool-explorer]');
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = 'true';
+    const search = root.querySelector('[data-search]');
+    const grid = root.querySelector('[data-grid]');
+    const count = root.querySelector('[data-count]');
+    const cards = [...grid.querySelectorAll('.tool-card')];
+    let area = 'All';
+    let kind = 'All';
+    const apply = () => {
+      const q = search.value.trim().toLowerCase();
+      let n = 0;
+      for (const c of cards) {
+        const ok =
+          (area === 'All' || c.dataset.area === area) &&
+          (kind === 'All' || c.dataset.kind === kind) &&
+          (!q || c.dataset.name.includes(q) || c.dataset.summary.includes(q));
+        c.style.display = ok ? '' : 'none';
+        if (ok) n++;
+      }
+      count.textContent = `${n} of ${cards.length} tools shown`;
+    };
+    root.querySelector('[data-pills]').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-area]');
+      if (!b) return;
+      area = b.dataset.area;
+      root.querySelectorAll('[data-pills] .pill').forEach((p) =>
+        p.setAttribute('aria-pressed', String(p === b)),
+      );
+      apply();
+    });
+    root.querySelector('[data-kind-pills]').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-kind]');
+      if (!b) return;
+      kind = b.dataset.kind;
+      root.querySelectorAll('[data-kind-pills] .pill').forEach((p) =>
+        p.setAttribute('aria-pressed', String(p === b)),
+      );
+      apply();
+    });
+    search.addEventListener('input', apply);
+    apply();
+  })();
+</script>

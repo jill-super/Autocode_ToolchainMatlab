@@ -1,0 +1,29 @@
+---
+title: Libraries overview
+description: EA3, EA4, NVM and development block libraries.
+---
+
+The `Libraries` area ships **26 Simulink libraries** of vetted, code-generation-ready blocks. Build FDD subsystems from these instead of raw Simulink blocks wherever an equivalent exists — the test tools (`NxtrMdlChkr`, `NxtrMaskList`) know these blocks and their coverage rules.
+
+## Family map
+
+| Library root | File | For |
+| --- | --- | --- |
+| EA3 | `EA3_Library/NexteerUtilities.slx` (+ C/S-function sources) | That program type's interpolation, fixed-point and math blocks |
+| EA4 | `EA4_Library/NxtrMdlUtilities.slx` + `Math`, `FixdPt`, `Intrpn`, `Fil`, `IMC` | Limiters, conversion, interpolation, filters, communication — see [EA3 & EA4 blocks](ea3-ea4/) |
+| NVM | `NvM_Library/NxtrNvM.slx` (+ HTML help) | Non-volatile-memory client blocks — see [NVM & development](nvm-dev/) |
+| Development | `Development Library/DevLib.slx` | Prototyping blocks — same page |
+| Top | `NxtrLib.slx` + `slblocks.m` | Library browser entry point registering the families |
+
+<div class="lib-grid">
+  <div class="tool-card"><h3>Math</h3><p>Limits, min/max, sign, absolute and lookup blocks with fixed-point-correct behavior.</p></div>
+  <div class="tool-card"><h3>Fixed-point</h3><p>Float↔fixed conversion (with/without rounding) matching the `dt.*` types.</p></div>
+  <div class="tool-card"><h3>Interpolation</h3><p>Linear and bilinear tables, static and dynamic, aligned with calibration `GraphLink` types.</p></div>
+  <div class="tool-card"><h3>Filters & IMC</h3><p>Filter blocks and inter-micro communication client calls.</p></div>
+  <div class="tool-card"><h3>NVM</h3><p>Read/write/protect/status client blocks with per-block HTML help.</p></div>
+  <div class="tool-card"><h3>Development</h3><p>Prototyping blocks kept separate from production libraries.</p></div>
+</div>
+
+:::tip[Stay in-program]
+EA3 blocks for EA3 components, EA4 blocks for EA4 components. `NxtrWrgUsgChk` flags cross-use on the dictionary side; the same discipline applies to block choice.
+:::

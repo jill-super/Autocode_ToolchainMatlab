@@ -1,0 +1,47 @@
+---
+title: Create & verify DD
+description: Build a component dictionary with CreateDD and prove it with VerifyDD.
+---
+
+## CreateDD — build the dictionary
+
+```matlab
+CreateDD('EA4')   % or 'EA4' -> 'EA3' for that program type
+```
+
+**Before running:** clear the base workspace of anything that should *not* land in the dictionary. `CreateDD` collects the remaining `DataDict.*` objects, renders each through its `String` method ([helpers](../data-management/common-functions/)), checks keywords (`NxtrKeyWrdChk`, filling empty long names from the approved list), and writes `<FDDName>_<FDDShoName>_DataDict.m` — overwriting any file with that name.
+
+**Companions:** `NxtrDDGenr` regenerates a dictionary from the one in the folder; `NxtrKeyWrdRpt`/`NxtrKeyWrdMgr` back the keyword step; `NxtrAbbListBldr` builds the abbreviation list they check against.
+
+## VerifyDD — prove the dictionary
+
+```matlab
+VerifyDD('EA4', 'MyComp_DataDict')                      % single dictionary
+VerifyDD('EA4', 'MyComp_DataDict', 'SharedCals_DataDict') % with dependencies
+```
+
+The `.m` extension is optional. Extra filename arguments are dependency dictionaries needed when `GraphLink` references calibrations owned by another component.
+
+**What it checks, per variable category** (`FDD`, `Runnable`, `SrvRunnable`, `Client`, `IpSignal`, `OpSignal`, `Calibration`, `Constant`, `IRV`, `PIM`, `NVM`, `Display`, `CSArguments`, …):
+
+- Name formatting and program conventions (including mnemonic case rules).
+- Property values against each class's legal-value rules (ranges, allowed strings, required descriptions).
+- Datatype approval via `NxtrDTMgr` / `NxtrDTTbl`.
+- Unknown keywords via the keyword tools.
+- Cross-program misuse (EA3 content in EA4 and vice versa) via `NxtrWrgUsgChk`.
+- Model/dictionary agreement: same runnables and server runnables in both, matching display/PIM/NVM usage, `StateMustResolveToSignalObject` on unit delays and data-store memory, NVM-client pairing.
+- Unsaved model changes (warns before you trust the result).
+
+**Iterate** until the report is clean — the design package and MIL both assume a verified dictionary.
+
+## Typical session
+
+```matlab
+addpath(genpath('Data_Management v3.0.0'))
+addpath(genpath('Tools v3.0.0'))
+CreateDD('EA4')
+VerifyDD('EA4', 'MyComp_DataDict')
+% fix findings, re-run VerifyDD, then open STool
+```
+
+Next: [STool hub](stool/).

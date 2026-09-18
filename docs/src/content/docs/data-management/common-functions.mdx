@@ -1,0 +1,33 @@
+---
+title: Helpers & aliases
+description: Val2String, MinMax2String, WriteDescription and the AUTOSAR alias tables.
+---
+
+import HelpersFlow from '../../../components/HelpersFlow.astro';
+
+## CommonFunctions/
+
+Three helpers do the text rendering that `CreateDD` and the class `String` methods rely on:
+
+| Helper | Job | Why it matters |
+| --- | --- | --- |
+| `Val2String` | Render an engineering value (scalar, enum, struct, array-of-struct, float) into dictionary text | Handles enums-in-structs, empty values, string inputs and float formatting so generated dictionaries parse back identically |
+| `MinMax2String` | Render engineering min/max (including struct ranges) | Keeps range text consistent with the value text, including variable struct min/max |
+| `WriteDescription` | Word-wrap/escape `Description` text | Prevents the classic “description of a certain length breaks the line parser” bug |
+
+Each ships with a compiled `.p` counterpart alongside the `.m` source, like the rest of the toolbox.
+
+## DataTypeAlias files
+
+| File | Job |
+| --- | --- |
+| `DataTypeAlias_Autosar.m` | Maps the toolbox types to AUTOSAR type names for code generation |
+| `DataTypeAlias_Nexteer.m` | Project-specific alias layer on top |
+
+Keep aliases in sync when adding a type: new `dt.*` type → alias entry → `NxtrDTTbl` entry → `NxtrDTMgr` accepts it → `VerifyDD` passes.
+
+## How it fits together
+
+<HelpersFlow />
+
+If generated text ever looks wrong (rounding, enum prefixes, struct nesting), the fix belongs in `CommonFunctions`, not in hand-edits of the generated file — hand-edits are overwritten on the next `CreateDD` run.

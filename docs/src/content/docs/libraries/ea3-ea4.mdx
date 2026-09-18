@@ -1,0 +1,32 @@
+---
+title: EA3 & EA4 blocks
+description: Math, fixed-point, interpolation, filter and IMC libraries per program.
+---
+
+## EA3 library — `EA3_Library/NexteerUtilities.slx`
+
+C/S-function-based blocks with shipped sources (`.c`, `.tlc`, `.mexw64`):
+
+- **Interpolation:** fixed-X and variable-XY tables across `s16`/`u16` combinations (`IntplFxdX_*`, `IntplVarXY_*`), bilinear variants (`BilinearXYM_*`, `BilinearXMYM_*`).
+- **Fixed-point conversion:** `FPM_*_FixedToFloat` / `FloatToFixed` for `s16`/`u16`.
+- **Math and filters:** absolute blocks (`Abs_*`), AC/filter update blocks (`AC_*`).
+- **Registration:** `slblocks.m`, `rtwmakecfg.m`, `setSubSystemFunction.m` wire the library into the browser and the build.
+
+## EA4 library — `EA4_Library/NxtrMdlUtilities.slx` + sub-libraries
+
+| Sub-library | Blocks | Files |
+| --- | --- | --- |
+| `Math/` | `NxtrMath` hub, `NxtrLim`, `NxtrMax`, `NxtrMin`, `NxtrSign`, `NxtrAbslt`, plus sine lookup | `NxtrMath.slx`, `NxtrLim.slx`, `NxtrMax.slx`, `NxtrMin.slx`, `NxtrSign.slx`, `NxtrAbslt.slx` |
+| `FixdPt/` | `FixdToFloat`, `FloatToFixd`, `FloatToFixdWithRound`, `NxtrFixdPt` hub (per-width C sources + `.tlc`) | `FixdToFloat.slx`, `FloatToFixd.slx`, `FloatToFixdWithRound.slx`, `NxtrFixdPt.slx` |
+| `Intrpn/` | `LnrIntrpn` (+ dynamic, with-round variants), bilinear common/multiple-X (+ dynamic), `NxtrIntrpn` hub | `LnrIntrpn*.slx`, `BilnrIntrpn*.slx`, `NxtrIntrpn.slx` |
+| `Fil/` | Filter blocks | `Fil.slx` |
+| `IMC/` | Inter-micro communication client calls | `NxtrIMC.slx` |
+
+## Choosing blocks
+
+1. Match the program (EA3 vs EA4) first.
+2. Match the calibration's `dt.*` type to the block's expected widths — interpolation mismatches are a classic `VerifyDD`/MIL failure.
+3. Prefer the hub libraries (`NxtrMath`, `NxtrFixdPt`, `NxtrIntrpn`, `NxtrMdlUtilities`) as entry points; they collect the family in one browser node.
+4. Check `NxtrMaskList` when a coverage result surprises you — library masks carry exclusion rules the tools honor.
+
+Next: [NVM & development](nvm-dev/).

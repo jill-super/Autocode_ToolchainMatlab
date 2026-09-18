@@ -1,0 +1,37 @@
+---
+title: SIL & helpers
+description: Run_SIL plus the plotting, saving, search and report helpers.
+---
+
+## Run_SIL — Software-In-the-Loop
+
+```matlab
+Run_SIL('MyTestDef', 'MySilHarness')
+```
+
+- `TestDefFile` — the test-definition file describing cases and expectations.
+- `harness` — the SIL test harness model.
+
+Run MIL first ([MIL workflow](mil/)); SIL replays the same definition against generated code as the final confidence step.
+
+## Analyze results
+
+| Tool | Job | Signature sketch |
+| --- | --- | --- |
+| `PlotSimData` | Plot per-case data (title carries function + case number) | `PlotSimData(FnName, Tnum, test, IO, data, path, …)` |
+| `SaveSimData` | Persist input/output vectors per simulated case | `SaveSimData(plan, Tnum, IO, data, dirpath)` — each component's UTP script calls it after every simulation |
+
+## Find things
+
+| Tool | Job |
+| --- | --- |
+| `NxtrSigFindr` | Locate signals across dictionaries/models for tests and reports |
+| `NxtrKeyWrdFindr` | Locate keywords for test/report flows |
+| `NxtrWrdFindrGUI` | GUI word finder (`.m` + `.fig`) over reports and dictionaries |
+| `NxtrReqAnlyzr` | Requirements-analysis helper feeding the test flow |
+
+## Build reports
+
+An assembly line, each tool doing one job: `NxtrRprtMgr` manages the pipeline · `NxtrRprtDataGenr` generates the data (including extended inspection content) · `NxtrRprtNameGenr` names files · `NxtrSumryTblGenr` builds summary tables · `NxtrTCRGenr` builds the test-completion record · `NxtrWrdRprtGenr` emits Word output · `NxtrAddTbl` / `NxtrAddHLinks` / `NxtrAddTags` enrich documents · `NxtrTblDataUpdr` refreshes table data · `NxtrXlsWrite` writes model info to Excel.
+
+Next: [Test definition files](test-definition/).

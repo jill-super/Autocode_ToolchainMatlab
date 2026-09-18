@@ -1,0 +1,32 @@
+---
+title: Design to validation
+description: The full component journey from model to MIL/SIL delivery.
+---
+
+import PipelineDiagram from '../../../components/PipelineDiagram.astro';
+import WorkflowStepper from '../../../components/WorkflowStepper.astro';
+
+## Pipeline
+
+<PipelineDiagram />
+
+## Walkthrough
+
+<WorkflowStepper />
+
+## Artifact checklist per component
+
+| Stage | You hand over |
+| --- | --- |
+| Model | FDD subsystem + harness, built from the [libraries](../libraries/) |
+| Dictionary | `<FDD>_<ShortName>_DataDict.m`, verified clean ([Create & verify DD](../design-tools/create-verify-dd/)) |
+| Design package | `STool` delivery folder: regenerated DD, verification/requirements/Model Advisor reports, web views ([STool hub](../design-tools/stool/)) |
+| MIL | Delivery folder `<FDD>_<ShortName>_MIL` (or dated batch folder + log), plots, verification/inspection reports ([MIL workflow](../testing-tools/mil/)) |
+| SIL | `Run_SIL` results against the same test definition ([SIL & helpers](../testing-tools/sil-and-helpers/)) |
+| Traceability | `simulink2doors.csv` + `testdef2doors.csv` imports ([Test definition files](../testing-tools/test-definition/)) |
+
+## Golden rules
+
+- One program type per component (EA3 *or* EA4) — models, dictionaries, blocks and test artifacts alike.
+- Verify before packaging; gate before running; never hand-edit generated files.
+- Keep each area's history file in mind when upgrading: [Changelog](../reference/changelog/).

@@ -1,0 +1,27 @@
+---
+title: Design tools overview
+description: Create, verify, package and report on component designs.
+---
+
+import ToolExplorer from '../../../components/ToolExplorer.astro';
+
+The `Design_Tools` area turns workspace objects and a Simulink model into a **checked, packaged design**: dictionary file, verification report, requirements report, Model Advisor report, web views and a delivery folder.
+
+## Browse every tool
+
+Search by name or topic, or filter by family and kind:
+
+<ToolExplorer />
+
+## The core loop
+
+1. **`CreateDD`** — render workspace objects into `<FDD>_<ShortName>_DataDict.m`. Details: [Create & verify DD](create-verify-dd/).
+2. **`VerifyDD`** — check the dictionary and its agreement with the model. Same page.
+3. **`STool`** — orchestrate the full design package. Details: [STool hub](stool/).
+4. **Reports & keywords** — requirements, Model Advisor, DD reports and naming compliance. Details: [Reports & keywords](reports-keywords/).
+
+Supporting tools handle discovery (`NxtrFindFDDMdl`, `NxtrChkFDDData`, `NxtrElecArchTypFindr`, `NxtrFDDNoNmeGenr`), file hygiene (`NxtrFileMgr`), packaging (`NxtrPckGen`), datatypes (`NxtrDTMgr`, `NxtrDTTbl`), cross-program checks (`NxtrWrgUsgChk`), environment (`NxtrToolsPahFindr`, `NxtrToolsVersFindr`, `NxtrLicChkOut`) and traceability hooks (`NxtrLnchDoors`, `NxtrDDGenr`, `NxtrUpdRpt`, `NxtrWebViewGenr`, `NxtrCosmeticUpdr`, `NxtrXlsRead`).
+
+:::caution[Generated files are outputs]
+Every `.p` file ships next to its `.m` source, and every generated report/dictionary is rebuilt by the tools. Fix the inputs (objects, models, helpers) — never the outputs.
+:::

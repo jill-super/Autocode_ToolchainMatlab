@@ -1,0 +1,39 @@
+---
+title: Overview
+description: What this toolbox is, what it contains, and where to start.
+---
+
+import WorkflowStepper from '../../components/WorkflowStepper.astro';
+
+A Model-Based Design toolbox for Simulink that treats the **data dictionary as the contract**: interfaces are declared once as typed objects, generated into component dictionaries, verified automatically, packaged with reports, and validated with MIL/SIL.
+
+<div class="hero-grid">
+  <div class="stat-card"><strong>203</strong><span>MATLAB scripts (.m) across data, design and testing</span></div>
+  <div class="stat-card"><strong>21 + 94</strong><span>dictionary classes and fixed-point types</span></div>
+  <div class="stat-card"><strong>60</strong><span>design + testing tools behind one workflow</span></div>
+  <div class="stat-card"><strong>26</strong><span>Simulink libraries for EA3 / EA4 / NVM / development</span></div>
+</div>
+
+## The three pillars
+
+- **Data management** — `DataDict.*` classes for signals, parameters, runnables and diagnostics; `bt.*` base types; `dt.*` fixed-point types; helpers that render values into dictionary text. Start at [Data management](data-management/).
+- **Design tools** — `CreateDD`, `VerifyDD`, the `STool` hub, keyword checks, and report/packaging generators. Start at [Design tools](design-tools/).
+- **Testing tools** — the `MIL` GUI, `Run_SIL`, test-definition management, report pipeline, and traceability bridges. Start at [Testing tools](testing-tools/).
+- **Reusable libraries** — vetted EA3/EA4 math, fixed-point, interpolation, filter, IMC and NVM blocks. Start at [Simulink libraries](libraries/).
+
+## Try the workflow
+
+Click through the standard component flow — each step maps to a page in this site:
+
+<WorkflowStepper />
+
+## How to read this site
+
+1. New here? [Getting started](getting-started/) → [Architecture](architecture/).
+2. Defining interfaces? [Data classes](data-management/data-classes/) → [Create & verify DD](design-tools/create-verify-dd/).
+3. Validating? [MIL workflow](testing-tools/mil/) → [Test definition files](testing-tools/test-definition/).
+4. Looking something up? [Glossary](reference/glossary/) and [FAQ](reference/faq/).
+
+:::tip[Portable by design]
+This site stores no hosting identifiers — no owner, project, or absolute site URL. The same source builds locally and on any static host; only the `DOCS_BASE` environment value changes at build time.
+:::

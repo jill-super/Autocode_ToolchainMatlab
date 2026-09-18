@@ -1,0 +1,38 @@
+---
+title: Base types
+description: The bt.* wrappers that every concrete type builds on.
+---
+
+`+bt/` contains 11 small classes. They are rarely used directly; instead each `dt.*` type inherits from one of them and fixes the word length and scaling. Understanding them helps when reading type errors.
+
+| Base class | Models | Backs types like |
+| --- | --- | --- |
+| `bt.boolean` | 1-bit True/False | `dt.lgc` |
+| `bt.single` | 32-bit float | `dt.float32`, `dt.Phy` |
+| `bt.double` | 64-bit float | `dt.float64` |
+| `bt.sint8` / `bt.sint16` / `bt.sint32` | Signed 8/16/32-bit integers | `dt.s08`, `dt.s16`, `dt.s32`, most `s*`/`sm*` |
+| `bt.uint8` / `bt.uint16` / `bt.uint32` | Unsigned 8/16/32-bit integers | `dt.u08`, `dt.u16`, `dt.u32`, `dt.b08/16/32`, most `u*`/`um*` |
+| `bt.struct` / `bt.structelement` | Structures and their elements (incl. arrays of structs, `Dimensions`) | Bus/struct signals |
+
+## How inheritance works
+
+A concrete type is a one-line specialization. For example `dt.s16` inherits `bt.sint16` with zero fraction length:
+
+```matlab
+classdef s16 < bt.sint16
+    methods
+        function obj = s16(~)
+            obj = obj@bt.sint16(0);
+            obj.Description = 'fixdt(1,16,0)';
+        end
+    end
+end
+```
+
+So `dt.s16` means: signed, 16-bit, `fixdt(1,16,0)`. The same pattern repeats across all of `+dt/` — only the parent and the fraction length change.
+
+## When to care
+
+- **Choosing precision:** pick the `dt.*` type (next page), not the `bt.*` parent — the parent alone has no fixed scaling.
+- **Struct signals:** build them from `bt.struct`/`bt.structelement` so `Val2String`/`MinMax2String` can render nested values and ranges.
+- **Reading errors:** messages naming `bt.sint16` or `bt.uint16` point at the *word length family*; the fix is usually a different `dt.*` sibling, e.g. swapping `dt.s16` for `dt.s15p16`.

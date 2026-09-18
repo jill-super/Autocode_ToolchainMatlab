@@ -1,0 +1,54 @@
+---
+// Click-through of the end-to-end component flow. Pure client-side JS.
+const steps = [
+  {
+    title: '1 · Model the function',
+    body: 'Build the FDD subsystem in Simulink from the reusable EA3/EA4 blocks (math, fixed-point, interpolation, filters, IMC, NVM). Keep the unit under test clean — harness checks ignore it on purpose.',
+  },
+  {
+    title: '2 · Declare the interface',
+    body: 'Declare signals, parameters and runnables as workspace objects using the DataDict classes (IpSignal, OpSignal, Calibration, NVM, PIM, Runnable, SrvRunnable, …) with an approved dt.* type.',
+  },
+  {
+    title: '3 · CreateDD',
+    body: 'Run CreateDD with the program type (EA3/EA4). It writes the component dictionary file and fills keyword-checked long names.',
+  },
+  {
+    title: '4 · VerifyDD',
+    body: 'Run VerifyDD on the dictionary (plus dependency dictionaries for shared calibrations). Fix naming, property and model/dictionary mismatches until the report is clean.',
+  },
+  {
+    title: '5 · STool design package',
+    body: 'Open STool to assemble the design package: regenerated dictionary, verification report, requirements report, Model Advisor report and web views.',
+  },
+  {
+    title: '6 · Validate with MIL/SIL',
+    body: 'Author test definitions (MakeTestCals, TDMgr checks), run MIL in Normal or Batch mode, inspect plots and reports, then run SIL with Run_SIL for final confidence.',
+  },
+];
+---
+
+<div class="stepper-wrap" data-stepper>
+  <div class="stepper" role="tablist" aria-label="Component workflow steps">
+    {steps.map((s, i) => (
+      <button role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-step={i}>{s.title}</button>
+    ))}
+  </div>
+  <div class="step-panel" role="tabpanel" data-panel aria-live="polite"></div>
+</div>
+
+<script define:vars={{ steps }}>
+  (() => {
+    const root = document.querySelector('[data-stepper]');
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = 'true';
+    const panel = root.querySelector('[data-panel]');
+    const buttons = [...root.querySelectorAll('[data-step]')];
+    const show = (i) => {
+      buttons.forEach((b, j) => b.setAttribute('aria-selected', String(i === j)));
+      panel.innerHTML = `<h3>${steps[i].title}</h3><p>${steps[i].body}</p>`;
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.step))));
+    show(0);
+  })();
+</script>

@@ -1,0 +1,147 @@
+/* Theme polish for the docs site. Starlight CSS vars only — no frameworks. */
+
+:root {
+  --sl-color-accent-low: #e3edff;
+  --sl-color-accent: #0f62fe;
+  --sl-color-accent-high: #002d9c;
+  --sl-font-system: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --sl-color-accent-low: #001d6c;
+  --sl-color-accent: #78a9ff;
+  --sl-color-accent-high: #d0e2ff;
+}
+
+.hero-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin: 1.5rem 0;
+}
+
+.stat-card {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, var(--sl-color-gray-6, #fff), transparent);
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 1.8rem;
+  line-height: 1.1;
+}
+
+.stat-card span {
+  color: var(--sl-color-gray-3);
+  font-size: 0.9rem;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.pill {
+  border: 1px solid var(--sl-color-gray-5);
+  background: var(--sl-color-gray-6);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.pill[aria-pressed="true"] {
+  background: var(--sl-color-accent);
+  border-color: var(--sl-color-accent);
+  color: white;
+}
+
+.tool-grid,
+.lib-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin: 1rem 0 1.5rem;
+}
+
+.tool-card,
+.flow-step {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  background: var(--sl-color-gray-7, transparent);
+}
+
+.tool-card h3,
+.flow-step h3 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.tool-card code {
+  font-size: 0.82rem;
+}
+
+.searchbox {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--sl-color-gray-5);
+  background: var(--sl-color-black, #fff);
+  color: inherit;
+  margin: 0.5rem 0 1rem;
+}
+
+.stepper {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.stepper button {
+  border: 1px solid var(--sl-color-gray-5);
+  background: transparent;
+  color: inherit;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+}
+
+.stepper button[aria-selected="true"] {
+  background: var(--sl-color-accent);
+  color: #fff;
+  border-color: var(--sl-color-accent);
+}
+
+.step-panel {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+}
+
+table.docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+table.docs-table th,
+table.docs-table td {
+  border-bottom: 1px solid var(--sl-color-gray-5);
+  padding: 0.55rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+kbd {
+  border: 1px solid var(--sl-color-gray-5);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: 0 0.4rem;
+  font-size: 0.85em;
+}

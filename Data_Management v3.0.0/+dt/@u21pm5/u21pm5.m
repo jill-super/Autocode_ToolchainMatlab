@@ -1,0 +1,15 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Nexteer DataType Class Definition %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+classdef u21pm5 < bt.uint16
+   methods
+      function obj = u21pm5(~)
+          obj = obj@bt.uint16(-5);
+          obj.Description = 'fixdt(1,16,-5)';
+      end
+   end
+   
+end
+
+

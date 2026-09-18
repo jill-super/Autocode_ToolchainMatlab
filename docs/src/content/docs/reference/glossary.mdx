@@ -1,0 +1,26 @@
+---
+title: Glossary
+description: FDD, DD, runnables, calibrations and program vocabulary.
+---
+
+| Term | Meaning | Where it lives |
+| --- | --- | --- |
+| FDD | Function/design description — one modeled software component (subsystem + dictionary + tests) | Model file, `DataDict.FDD` |
+| DD / Data dictionary | The component's `.m` contract file listing every signal, parameter, runnable and diagnostic | Built by `CreateDD`, checked by `VerifyDD` |
+| EA3 / EA4 | The two supported electrical-architecture program types — parallel enums, structs, blocks | `CreateDD('EA3')` vs `CreateDD('EA4')` |
+| IpSignal / OpSignal | Declared runnable input / output | `DataDict.IpSignal`, `DataDict.OpSignal` |
+| Calibration | Tunable parameter with engineering value/min/max, type, cardinality and table links | `DataDict.Calibration` |
+| ImprtdCal | Calibration owned by another component, referenced by port | `DataDict.ImprtdCal` + dependency dictionary |
+| Constant / ConfigParam | Compile-time constant / build-time configuration switch | `DataDict.Constant`, `DataDict.ConfigParam` |
+| PIM | Per-instance memory — state kept across steps, not power cycles | `DataDict.PIM` |
+| NVM | Non-volatile memory — state kept across power cycles | `DataDict.NVM` + NVM library blocks |
+| Display | Test-visible/probed signal | `DataDict.Display` |
+| IRV | Inter-runnable variable — implicit data between runnables | `DataDict.IRV` |
+| Runnable / SrvRunnable / Client | Schedulable entity / server operation / its caller, with `CSArguments` + `CSReturn` | `DataDict.Runnable`, `DataDict.SrvRunnable`, `DataDict.Client` |
+| NTC | Diagnostic trouble-code entry and status info | `DataDict.NTC`, `NtcStInfo*` |
+| Sig / Prm | Lightweight signal/parameter for development dictionaries | `DataDict.Sig`, `DataDict.Prm` |
+| UTP | Unit test plan — the MIL test-definition plus parameters and harness | `MakeTestCals`, `NxtrTD*`, `MIL` |
+| MIL / SIL | Model-In-the-Loop (validate the model) / Software-In-the-Loop (validate generated code) | `MIL`, `Run_SIL` |
+| Design package | The shippable bundle: dictionary, reports, web views, delivery folder | `STool`, `NxtrPckGen` |
+| Keyword | Approved vocabulary word for names; unknown keywords fail verification | `NxtrKeyWrd*`, `NxtrAbbListBldr` |
+| GraphLink | Calibration property linking related table axes/data | Checked by `VerifyDD`, consumed by interpolation blocks |

@@ -1,0 +1,48 @@
+---
+title: Architecture
+description: How dictionaries, models, tools and libraries fit together.
+---
+
+import ArchitectureDiagram from '../../components/ArchitectureDiagram.astro';
+
+## Big picture
+
+<ArchitectureDiagram />
+
+The dictionary is the contract between design and test: design tools produce and check it, testing tools consume it.
+
+## Layer by layer
+
+### 1 · Data management — the contract language
+
+- **`+DataDict/` (21 classes):** typed objects for everything a component exposes — `FDD`, `IpSignal`, `OpSignal`, `Calibration`, `Constant`, `ConfigParam`, `Display`, `PIM`, `NVM`, `IRV`, `Runnable`, `SrvRunnable`, `Client`, `CSArguments`, `CSReturn`, `ImprtdCal`, `NTC`, `NtcStInfoIdx`, `NtcStInfoBitPacked`, plus `Sig`/`Prm` for development dictionaries.
+- **`+bt/` (11 base wrappers):** `boolean`, `double`, `single`, `sint8/16/32`, `uint8/16/32`, `struct`, `structelement`.
+- **`+dt/` (94 concrete types):** ready-to-use fixed-point, binary, logic and float types such as `dt.s16` (`fixdt(1,16,0)`), each carrying its own `Description`.
+- **`CommonFunctions/` + aliases:** `Val2String`, `MinMax2String`, `WriteDescription`, and AUTOSAR alias tables.
+
+Full tour: [Data management](data-management/).
+
+### 2 · Reusable libraries — the building blocks
+
+- **EA3 library** (`NexteerUtilities.slx` + C/S-function sources): interpolation, fixed-point conversion, math and filter blocks for that architecture.
+- **EA4 library** (`NxtrMdlUtilities.slx` + `Math`, `FixdPt`, `Intrpn`, `Fil`, `IMC` sub-libraries): limiters, min/max, sign, absolute, float↔fixed conversion, linear/bilinear interpolation (static and dynamic tables), filters, inter-micro communication blocks.
+- **NVM library** (`NxtrNvM.slx`): non-volatile-memory client blocks with HTML help.
+- **Development library** (`DevLib.slx`): blocks for development/prototyping functions.
+
+Full tour: [Simulink libraries](libraries/).
+
+### 3 · Design tools — produce and prove the contract
+
+`CreateDD` renders workspace objects into a dictionary file; `VerifyDD` checks it against naming, property and consistency rules; `STool` orchestrates the whole design package (dictionary, verification report, requirements report, Model Advisor report, web views, delivery folder via `NxtrPckGen`). Keyword tools keep names compliant; `NxtrWrgUsgChk` keeps EA3/EA4 content separated.
+
+Full tour: [Design tools](design-tools/).
+
+### 4 · Testing tools — consume the contract
+
+`MakeTestCals` scaffolds test parameters from dictionaries; `NxtrTD*` tools parse and gate test definitions; `MIL` executes Model-In-the-Loop in Normal or Batch mode with plots and reports; `Run_SIL` executes Software-In-the-Loop; `simulink2doors`/`testdef2doors` export traceability CSVs.
+
+Full tour: [Testing tools](testing-tools/).
+
+## Why EA3 vs EA4 matters
+
+The two program types have parallel enums, structs and sometimes blocks. Dictionaries, models and test artifacts must stay within one program type per component; the tools detect cross-use rather than silently accepting it. See [Glossary](reference/glossary/) for the vocabulary (FDD, DD, runnable, calibration, PIM/NVM/IRV…).

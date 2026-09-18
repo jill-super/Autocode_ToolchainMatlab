@@ -1,0 +1,40 @@
+---
+title: Test definition files
+description: Authoring, parsing, gating and tracing test definitions.
+---
+
+Test definitions are the test contract the way dictionaries are the design contract. Nothing runs until they pass their gates.
+
+## Authoring
+
+```matlab
+MakeTestCals('MyComp_DataDict')                       % one dictionary
+MakeTestCals({'MyComp_DataDict'; 'CommonCals_DataDict'}) % component first, then shared
+```
+
+- `MakeTestCals` writes the unit-test-plan parameter template from the dictionary (calibrations with min/max comments, imported calibrations, config parameters). The component dictionary comes first in the cell array.
+- `CreateLCTFiles({'MyComp_DataDict'})` builds the LCT interface files (e.g. calibration headers) the harness needs.
+
+## Gating — MIL starts only when these pass
+
+| Tool | Gate |
+| --- | --- |
+| `NxtrTDMgr` | Orchestrates the whole parse-and-verify chain for a definition |
+| `NxtrTDChkr` | Completeness/correctness of one definition; MIL is blocked until it passes |
+| `NxtrReadTD` | Parses the definition and extracts what MIL needs |
+| `NxtrReadDD` | Extracts the input-signal list from the FDD dictionary (`ChkTyp`, `DDPath`, `DDName`) |
+| `NxtrReadMdl` | Extracts the signal list from the harness model for cross-checking |
+| `NxtrMdlChkr` | Verifies harness block settings (auto-corrects outside the unit under test; never touches the design subsystem itself) |
+
+## Traceability exports
+
+| Tool | Usage | Produces |
+| --- | --- | --- |
+| `simulink2doors` | `simulink2doors('SystemName', 'EA3'/'EA4')` on the design-phase model | `simulink2doors.csv` for the requirements tool's import trace |
+| `testdef2doors` | `testdef2doors('ReqName', 'EA3'/'EA4')` on the MIL-phase definition | `testdef2doors.csv` for the same import path |
+
+## Housekeeping
+
+`NxtrPrevFileDel` removes previous-run files so a fresh validation never mixes old and new artifacts.
+
+Next: [Simulink libraries](../libraries/).

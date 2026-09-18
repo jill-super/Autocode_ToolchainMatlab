@@ -1,0 +1,62 @@
+---
+title: Data classes
+description: The 21 DataDict classes — what each one declares and when to use it.
+---
+
+All classes live in `+DataDict/`. Each validates its properties on assignment and renders itself through a `String` method that `CreateDD` collects into the dictionary file.
+
+## Component identity
+
+| Class | Declares | Notes |
+| --- | --- | --- |
+| `FDD` | The function/design description itself: version (`integer.integer.X`), long/short/mnemonic names, ASIL, description, dependencies | One per component; names the generated `<FDD>_<ShortName>_DataDict.m` file |
+
+## Interface signals
+
+| Class | Declares | Use when |
+| --- | --- | --- |
+| `IpSignal` | An input the runnable reads (`ReadIn`, test tolerance) | Any modeled input port |
+| `OpSignal` | An output the runnable writes (`WrittenIn`, test tolerance) | Any modeled output port |
+| `Display` | A display/test-visible signal | Probing internal values in MIL |
+| `IRV` | Inter-runnable variable (implicit communication between runnables) | Runnable-to-runnable data |
+| `Sig` | Lightweight signal for **development** dictionaries | Prototyping flows |
+
+## Parameters and memory
+
+| Class | Declares | Use when |
+| --- | --- | --- |
+| `Calibration` | Tunable parameter: engineering value/min/max, data type, cardinality, monotony, tuning owner, graph links for tables | Any calibratable gain, table, curve |
+| `ImprtdCal` | Imported calibration owned by another component (port name, engineering range) | Shared calibrations across FDDs |
+| `Constant` | Fixed compile-time constant | True constants, no tuning |
+| `ConfigParam` | Build-time configuration parameter (incl. `IsBuildPrm`) | Variant/configuration selection |
+| `PIM` | Per-instance memory (block state that survives steps, not power cycles) | Integrators, filters, state |
+| `NVM` | Non-volatile memory (survives power cycles) | Learned offsets, EOL data |
+| `Prm` | Lightweight parameter for **development** dictionaries | Prototyping flows |
+
+## Software-component structure (AUTOSAR-style)
+
+| Class | Declares | Use when |
+| --- | --- | --- |
+| `Runnable` | A periodic/triggered executable entity + context (`Rte`/`NonRte`) + description | Every schedulable piece of the component |
+| `SrvRunnable` | A server runnable offering an operation + description | Client/server communication |
+| `Client` | A client port calling a server runnable + description | Calling shared operations |
+| `CSArguments` | One argument of a client/server call (direction, type, init rows/cols, test tolerance) | Describing operation signatures |
+| `CSReturn` | The return type of a call (supports AUTOSAR return types; description hidden for `None`) | Describing operation results |
+
+## Diagnostics
+
+| Class | Declares | Use when |
+| --- | --- | --- |
+| `NTC` | A diagnostic trouble-code entry bound to an NTC number | Fault reporting |
+| `NtcStInfoIdx` / `NtcStInfoBitPacked` | NTC status-info indexing / bit-packed status | Status handling around diagnostics |
+
+## Practical rules
+
+- **Naming first:** `VerifyDD` checks every variable name for program formatting — fix names before debugging values.
+- **Descriptions are mandatory:** most classes carry a `Description` check; write it when you create the object, not after.
+- **Shared calibrations:** reference them via `GraphLink`/`ImprtdCal` and pass the owning dictionary to `VerifyDD` as a dependency argument.
+- **Development vs production:** `Sig`/`Prm` exist for lightweight development dictionaries; production components use the full signal/parameter classes.
+
+:::tip[Where used]
+`CreateDD` collects these objects → [Create & verify DD](../design-tools/create-verify-dd/) · `VerifyDD` re-checks them → same page · test tools read them back → [MIL workflow](../testing-tools/mil/).
+:::

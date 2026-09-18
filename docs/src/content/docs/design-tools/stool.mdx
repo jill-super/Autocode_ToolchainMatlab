@@ -1,0 +1,33 @@
+---
+title: STool hub
+description: The guided design-package flow — inputs, generators and delivery folder.
+---
+
+import PackageFlow from '../../../components/PackageFlow.astro';
+
+```matlab
+STool
+```
+
+`STool` is the GUI hub (`STool.m` + `STool.fig`) that walks a component from verified dictionary to shippable design package. It finds the FDD and its artifacts (`NxtrFindFDDMdl`, `NxtrChkFDDData`), checks out the toolboxes the run needs (`NxtrLicChkOut`), resolves paths/versions (`NxtrToolsPahFindr`, `NxtrToolsVersFindr`), runs each generator, tracks files (`NxtrFileMgr`) and assembles the delivery folder (`NxtrPckGen`).
+
+## Flow
+
+<PackageFlow />
+
+## What each artifact is for
+
+| Artifact (generator) | Purpose |
+| --- | --- |
+| Regenerated dictionary (`NxtrDDGenr`) | Canonical dictionary rebuilt from the current one, so the package never ships a stale file |
+| Verification report (`NxtrDDRprtGenr`) | The `VerifyDD` findings bundled with the package |
+| Requirements report (`NxtrReqRprtGen`) | Per-authoring-spec report built from the FDD model and the requirements tool |
+| Model Advisor report (`NxtrMdlAdvsrRprtGenr`) | Modeling-standard results, using the setup file when present |
+| Web views (`NxtrWebViewGenr`, `NxtrUpdRpt`) | Browsable model views included for reviewers |
+| Delivery folder (`NxtrPckGen`) | Everything above, named per component, ready to hand over |
+
+:::note[Licenses]
+MATLAB may exit automatically at the end of a package run to release network licenses — that is expected behavior, not a crash.
+:::
+
+Next: [Reports & keywords](reports-keywords/).

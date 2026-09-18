@@ -1,0 +1,37 @@
+---
+title: Reports & keywords
+description: Requirements, Model Advisor and dictionary reports plus the naming-compliance system.
+---
+
+## Reports
+
+| Tool | Produces | Notes |
+| --- | --- | --- |
+| `NxtrReqRprtGen` | Requirements report per the FDD authoring spec | Prompts for the FDD model; starts the requirements tool if needed (sign in when it launches it for you) |
+| `NxtrMdlAdvsrRprtGenr` | Model Advisor report | Uses the simulation setup file when one exists |
+| `NxtrDDRprtGenr` | Dictionary verification report | Built automatically inside the design package |
+| `NxtrUpdRpt`, `NxtrWebViewGenr` | Updated reports / model web views | Packaging helpers invoked by the hub |
+
+## Keywords — how naming compliance works
+
+Signal and parameter names must be built from approved keywords and abbreviations. Three tools split the job:
+
+1. **`NxtrKeyWrdChk`** — the entry point. For `CreateDD` it fills empty long names from the approved list; for `VerifyDD` it parses every name and returns the unknown-keyword list.
+2. **`NxtrKeyWrdMgr`** — extracts the unknown keywords from a single name.
+3. **`NxtrKeyWrdRpt`** — checks one name against the unknown list and bumps the error count for the dictionary build.
+
+Supporting pieces: `NxtrAbbListBldr` builds the abbreviation list; `NxtrXlsRead` loads the abbreviation and exclusion workbooks (`FilePath` + `FileType`).
+
+## Fixing keyword findings
+
+1. Read the unknown-keyword list in the `VerifyDD`/`CreateDD` report.
+2. Check whether the word is a legitimate new term (request it added to the list source) or a misspelling/non-standard abbreviation.
+3. Rename the object, re-run `CreateDD`, re-run `VerifyDD`.
+
+Known exclusions (signals that intentionally never follow the convention, NVM client/server names) are handled inside the tools — do not rename those to force compliance.
+
+## Cross-program guard
+
+`NxtrWrgUsgChk` scans for program-specific enums/structs used in the wrong program (EA3 content in EA4 and vice versa). When it fires, swap in the matching program's type rather than suppressing the finding.
+
+Next: [Testing tools](../testing-tools/).

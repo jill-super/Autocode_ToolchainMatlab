@@ -1,0 +1,32 @@
+---
+title: NVM & development
+description: Non-volatile-memory client blocks and the development library.
+---
+
+## NVM library — `NvM_Library/NxtrNvM.slx`
+
+Client blocks for non-volatile memory, mirroring the `DataDict.NVM` class on the model side. Each operation has a block plus a matching HTML help page under `NvM_Library/Documentation/`:
+
+| Block | Help page | Job |
+| --- | --- | --- |
+| Read | `ReadBlock.html` | Read a block into RAM |
+| Write | `WriteBlock.html` | Write RAM back to the block |
+| Erase | `EraseBlock.html` | Erase a block |
+| Invalidate | `InvalidateBlock.html` | Mark a block invalid |
+| Restore defaults | `RestoreBlockDefaults.html` | Restore default data |
+| RAM status | `SetRamBlockStatus.html` | Manage RAM-block status |
+| Protection | `SetBlockProtection.html` | Set block protection |
+| Data index | `GetDataIndex.html` / `SetDataIndex.html` | Select the dataset index |
+| Error status | `GetErrorStatus.html` | Read the error status |
+
+`NvMLibHelp.m` opens the help from MATLAB. Open any help page to see parameters, ports and error semantics before wiring the block.
+
+## Development library — `Development Library/DevLib.slx`
+
+Blocks for development and prototyping functions, kept deliberately separate from the production EA3/EA4/NVM families. Prototype here; promote to production libraries only through the normal review path — and declare development signals/parameters with the lightweight `DataDict.Sig` / `DataDict.Prm` classes.
+
+## Top-level entry — `NxtrLib.slx` + `slblocks.m`
+
+The root library and its `slblocks.m` registration expose all families in the Simulink Library Browser from one node. If a family is missing from the browser, check that `slblocks.m` on its path and that the program folders are added with `genpath` (see [Getting started](../getting-started/)).
+
+Next: [End-to-end workflows](../workflows/).

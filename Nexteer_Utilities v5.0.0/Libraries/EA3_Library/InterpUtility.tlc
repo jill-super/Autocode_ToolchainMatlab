@@ -1,0 +1,33 @@
+%% utility functions used by the various interpolation functions to generate the "sizeof" macro
+%% for vectors and tables.
+%%
+
+%function getMatrixSizeExpression(param, row_param) Output
+  %assign param_ptr = LibBlockParameterBaseAddr(param)
+%% at this point, param_ptr will look like "(&(myParam[0]))"
+%% need to strip off params, & and [0] to yield "myParam"
+  %assign param_exp = FEVAL("regexprep",param_ptr, "\\\[\\d*\]", "")
+  %assign param_exp = FEVAL("regexprep",param_exp, "\\\&", "")
+  %assign param_exp = FEVAL("regexprep",param_exp, "\\\(\(", "")
+  %assign param_exp = FEVAL("regexprep",param_exp, "\\\)\)", "")
+  %assign mp = ModelParameters.Parameter[p3.ASTNode.ModelParameterIdx]
+  %% if needed, use LibGetCustomStorageClassName(mp) to get CSC name, if needed here
+  %if mp.StorageClass == "Custom"
+    %assign sizeExpr = "TableSize_m(%<param_exp>[0])"
+  %else
+    %assign sizeExpr = "(uint16_T)(TableSize_m(%<param_exp>)/%<getVectorSizeExpression(row_param)>)"
+  %endif
+%return sizeExpr
+%endfunction
+
+%function getVectorSizeExpression(param) Output
+  %assign param_ptr = LibBlockParameterBaseAddr(param)
+%% at this point, param_ptr will look like "(&(myParam[0]))"
+%% need to strip off params, & and [0] to yield "myParam"
+  %assign param_exp = FEVAL("regexprep",param_ptr, "\\\[\\d*\]", "")
+  %assign param_exp = FEVAL("regexprep",param_exp, "\\\&", "")
+  %assign param_exp = FEVAL("regexprep",param_exp, "\\\(\(", "")
+  %assign param_exp = FEVAL("regexprep",param_exp, "\\\)\)", "")
+  %assign sizeExpr = "TableSize_m(%<param_exp>)"
+%return sizeExpr
+%endfunction

@@ -1,0 +1,75 @@
+---
+title: Getting started
+description: Install paths, first dictionary, first verification, first validation.
+---
+
+## What you need
+
+- MATLAB + Simulink. Individual flows may need extra toolboxes (coverage, reporting) — install whatever a tool asks for and retry.
+- Node.js 20+ and npm — only for working on this docs site itself.
+
+## 1 · Put the toolbox on the path
+
+```matlab
+addpath(genpath('Data_Management v3.0.0'))
+addpath(genpath('Tools v3.0.0'))
+addpath(genpath('Nexteer_Utilities v5.0.0'))
+savepath
+```
+
+Pick the program type once per component: `'EA3'` or `'EA4'`. Mixing them triggers `NxtrWrgUsgChk` warnings — that is intentional.
+
+## 2 · Declare one interface object
+
+```matlab
+mySig = DataDict.OpSignal;
+mySig.LongName = 'MyComponent_MySignal';
+mySig.EngDT = dt.s16;
+mySig.EngVal = 0;
+```
+
+Key idea: you work with **objects** (`DataDict.*` + `dt.*`), and the tools render them into dictionary text via each class's `String` method.
+
+## 3 · Generate the dictionary
+
+Clear anything you do *not* want in the dictionary from the base workspace, then:
+
+```matlab
+CreateDD('EA4')
+```
+
+This writes `<FDDName>_<FDDShortName>_DataDict.m` into the working directory. See [Create & verify DD](design-tools/create-verify-dd/).
+
+## 4 · Verify before you share
+
+```matlab
+VerifyDD('EA4', 'MyComp_DataDict')
+```
+
+Add dependency dictionary files after the filename when shared calibrations are referenced through `GraphLink`. Fix what the report flags — naming, property ranges, model/dictionary mismatches — then re-run. Details at [Create & verify DD](design-tools/create-verify-dd/).
+
+## 5 · Package and validate
+
+- Open `STool` for the guided design-package flow ([STool hub](design-tools/stool/)).
+- Author test parameters with `MakeTestCals`, check definitions with `NxtrTDMgr`, run `MIL` ([MIL workflow](testing-tools/mil/)), then `Run_SIL` ([SIL & helpers](testing-tools/sil-and-helpers/)).
+
+## 6 · Work on this docs site
+
+```sh
+cd docs
+npm install
+npm run dev      # local preview
+npm run build    # static output in docs/dist/
+npm run preview  # preview the production build
+```
+
+For hosting under a sub-path: `DOCS_BASE="/<project>/" npm run build` (keep the trailing slash; omit the variable for root hosting).
+
+## Troubleshooting first-run issues
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| `VerifyDD` complains about unknown keywords | Signal/parameter uses unapproved abbreviations | Check [Reports & keywords](design-tools/reports-keywords/) and align with the abbreviation list |
+| EA3 content flagged in an EA4 component | Cross-program enum/struct usage | Replace with the matching program's type; see [Glossary](reference/glossary/) |
+| MIL refuses to start | Test-definition errors | Run the `NxtrTD*` checks; see [Test definition files](testing-tools/test-definition/) |
+| Missing toolbox error | Optional MathWorks toolbox not installed | Install it and retry the same command |

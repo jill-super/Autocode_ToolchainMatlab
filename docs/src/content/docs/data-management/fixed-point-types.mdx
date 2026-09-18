@@ -1,0 +1,28 @@
+---
+title: Fixed-point types
+description: Browse all 94 dt.* types — signed, unsigned, mixed, binary, float, logic.
+---
+
+import DataTypeExplorer from '../../../components/DataTypeExplorer.astro';
+
+`+dt/` ships 94 ready-to-use types. Each sets its word length, scaling and `Description` (the `fixdt(...)` string) so dictionaries, models and generated code agree. Always assign a `dt.*` type to `EngDT` — never a raw string.
+
+## Explorer
+
+Type to filter, or pick a family. Counts: 33 signed · 28 unsigned · 26 mixed · 3 float · 3 binary · 1 logic.
+
+<DataTypeExplorer />
+
+## Reading the names
+
+- `s` / `u` — signed / unsigned (`s16` → `fixdt(1,16,0)`, `u08` → `fixdt(1,8,0)`).
+- `sm` / `um` — extended-fraction signed/unsigned variants (`sm5p12` → `fixdt(1,8,12)`).
+- `p` / `pm` — positive / negative fraction lengths (`u1p15` → `fixdt(1,16,15)`; `s16pm1` → `fixdt(1,16,-1)`).
+- `b08`/`b16`/`b32` — packed binary integers, not scaled fractions.
+- `lgc` — boolean; `float32`/`float64`/`Phy` — floating point / physical.
+
+## Rules that bite
+
+1. **Use `NxtrDTMgr`-approved types.** `VerifyDD` calls `NxtrDTMgr` to reject anything outside the approved list (`NxtrDTTbl`).
+2. **Match the program.** Some types/structs are program-specific — cross-use is flagged by `NxtrWrgUsgChk`.
+3. **Tables need consistent types.** Axis and data types of a calibration table must match the interpolation block expectations in the [EA3/EA4 libraries](../libraries/ea3-ea4/).

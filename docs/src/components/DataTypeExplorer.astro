@@ -1,0 +1,66 @@
+---
+// Searchable explorer over all 94 fixed-point/logic/float data types.
+// Data parsed from the +dt class definitions (name, parent, Description).
+const types = [{"name":"Phy","parent":"dt.float32","desc":"","family":"float"},{"name":"b08","parent":"bt.uint8","desc":"packed binary (unsigned 8-bit integer)","family":"binary"},{"name":"b16","parent":"bt.uint16","desc":"packed binary (unsigned 16-bit integer)","family":"binary"},{"name":"b32","parent":"bt.uint32","desc":"packed binary (unsigned 32-bit integer)","family":"binary"},{"name":"float32","parent":"bt.single","desc":"32-bit floating point single","family":"float"},{"name":"float64","parent":"bt.double","desc":"64-bit floating point single","family":"float"},{"name":"lgc","parent":"bt.boolean","desc":"1-bit boolean, True/False","family":"logic"},{"name":"s08","parent":"bt.sint8","desc":"fixdt(1,8,0)","family":"signed"},{"name":"s0p15","parent":"bt.sint16","desc":"fixdt(1,16,15)","family":"signed"},{"name":"s10p5","parent":"bt.sint16","desc":"fixdt(1,16,5)","family":"signed"},{"name":"s11p4","parent":"bt.sint16","desc":"fixdt(1,16,4)","family":"signed"},{"name":"s12p3","parent":"bt.sint16","desc":"fixdt(1,16,3)","family":"signed"},{"name":"s13p2","parent":"bt.sint16","desc":"fixdt(1,16,2)","family":"signed"},{"name":"s14p1","parent":"bt.sint16","desc":"fixdt(1,16,1)","family":"signed"},{"name":"s15p0","parent":"bt.sint16","desc":"fixdt(1,16,0)","family":"signed"},{"name":"s15p16","parent":"bt.sint32","desc":"fixdt(1,32,16)","family":"signed"},{"name":"s16","parent":"bt.sint16","desc":"fixdt(1,16,0)","family":"signed"},{"name":"s16pm1","parent":"bt.sint16","desc":"fixdt(1,16,-1)","family":"signed"},{"name":"s17pm2","parent":"bt.sint16","desc":"fixdt(1,16,-2)","family":"signed"},{"name":"s18p13","parent":"bt.sint32","desc":"fixdt(1,32,13)","family":"signed"},{"name":"s18pm3","parent":"bt.sint16","desc":"fixdt(1,16,-3)","family":"signed"},{"name":"s19pm4","parent":"bt.sint16","desc":"fixdt(1,16,-4)","family":"signed"},{"name":"s1p14","parent":"bt.sint16","desc":"fixdt(1,16,14)","family":"signed"},{"name":"s20pm5","parent":"bt.sint16","desc":"fixdt(1,16,-5)","family":"signed"},{"name":"s21pm6","parent":"bt.sint16","desc":"fixdt(1,16,-6)","family":"signed"},{"name":"s22pm7","parent":"bt.sint16","desc":"fixdt(1,16,-7)","family":"signed"},{"name":"s23pm8","parent":"bt.sint16","desc":"fixdt(1,16,-8)","family":"signed"},{"name":"s24p7","parent":"bt.sint32","desc":"fixdt(1,32,7)","family":"signed"},{"name":"s24pm9","parent":"bt.sint16","desc":"fixdt(1,16,-9)","family":"signed"},{"name":"s25pm10","parent":"bt.sint16","desc":"fixdt(1,16,-10)","family":"signed"},{"name":"s2p13","parent":"bt.sint16","desc":"fixdt(1,16,13)","family":"signed"},{"name":"s32","parent":"bt.sint32","desc":"fixdt(1,32,0)","family":"signed"},{"name":"s3p12","parent":"bt.sint16","desc":"fixdt(1,16,12)","family":"signed"},{"name":"s4p11","parent":"bt.sint16","desc":"fixdt(1,16,11)","family":"signed"},{"name":"s5p10","parent":"bt.sint16","desc":"fixdt(1,16,10)","family":"signed"},{"name":"s5p26","parent":"bt.sint32","desc":"fixdt(1,32,26)","family":"signed"},{"name":"s6p9","parent":"bt.sint16","desc":"fixdt(1,16,9)","family":"signed"},{"name":"s7p8","parent":"bt.sint16","desc":"fixdt(1,16,8)","family":"signed"},{"name":"s8p7","parent":"bt.sint16","desc":"fixdt(1,16,7)","family":"signed"},{"name":"s9p6","parent":"bt.sint16","desc":"fixdt(1,16,6)","family":"signed"},{"name":"sm10p25","parent":"bt.sint16","desc":"fixdt(1,16,25)","family":"mixed"},{"name":"sm11p26","parent":"bt.sint16","desc":"fixdt(1,16,26)","family":"mixed"},{"name":"sm12p27","parent":"bt.sint16","desc":"fixdt(1,16,27)","family":"mixed"},{"name":"sm13p28","parent":"bt.sint16","desc":"fixdt(1,16,28)","family":"mixed"},{"name":"sm1p16","parent":"bt.sint16","desc":"fixdt(1,16,16)","family":"mixed"},{"name":"sm2p17","parent":"bt.sint16","desc":"fixdt(1,16,17)","family":"mixed"},{"name":"sm3p18","parent":"bt.sint16","desc":"fixdt(1,16,18)","family":"mixed"},{"name":"sm4p19","parent":"bt.sint16","desc":"fixdt(1,16,19)","family":"mixed"},{"name":"sm5p12","parent":"bt.sint8","desc":"fixdt(1,8,12)","family":"mixed"},{"name":"sm5p20","parent":"bt.sint16","desc":"fixdt(1,16,20)","family":"mixed"},{"name":"sm6p13","parent":"bt.sint8","desc":"fixdt(1,8,13)","family":"mixed"},{"name":"sm6p21","parent":"bt.sint16","desc":"fixdt(1,16,21)","family":"mixed"},{"name":"sm7p22","parent":"bt.sint16","desc":"fixdt(1,16,22)","family":"mixed"},{"name":"sm8p23","parent":"bt.sint16","desc":"fixdt(1,16,23)","family":"mixed"},{"name":"sm9p24","parent":"bt.sint16","desc":"fixdt(1,16,24)","family":"mixed"},{"name":"u08","parent":"bt.uint8","desc":"fixdt(1,8,0)","family":"unsigned"},{"name":"u0p16","parent":"bt.uint16","desc":"fixdt(1,16,16)","family":"unsigned"},{"name":"u10p6","parent":"bt.uint16","desc":"fixdt(1,16,6)","family":"unsigned"},{"name":"u11p5","parent":"bt.uint16","desc":"fixdt(1,16,5)","family":"unsigned"},{"name":"u12p4","parent":"bt.uint16","desc":"fixdt(1,16,4)","family":"unsigned"},{"name":"u13p19","parent":"bt.uint32","desc":"fixdt(1,32,19)","family":"unsigned"},{"name":"u13p3","parent":"bt.uint16","desc":"fixdt(1,16,3)","family":"unsigned"},{"name":"u14p2","parent":"bt.uint16","desc":"fixdt(1,16,2)","family":"unsigned"},{"name":"u15p1","parent":"bt.uint16","desc":"fixdt(1,16,1)","family":"unsigned"},{"name":"u16","parent":"bt.uint16","desc":"fixdt(1,16,0)","family":"unsigned"},{"name":"u16p0","parent":"bt.uint16","desc":"fixdt(1,16,0)","family":"unsigned"},{"name":"u17pm1","parent":"bt.uint16","desc":"fixdt(1,16,-1)","family":"unsigned"},{"name":"u18pm2","parent":"bt.uint16","desc":"fixdt(1,16,-2)","family":"unsigned"},{"name":"u19pm3","parent":"bt.uint16","desc":"fixdt(1,16,-3)","family":"unsigned"},{"name":"u1p15","parent":"bt.uint16","desc":"fixdt(1,16,15)","family":"unsigned"},{"name":"u20pm4","parent":"bt.uint16","desc":"fixdt(1,16,-4)","family":"unsigned"},{"name":"u21pm5","parent":"bt.uint16","desc":"fixdt(1,16,-5)","family":"unsigned"},{"name":"u22pm6","parent":"bt.uint16","desc":"fixdt(1,16,-6)","family":"unsigned"},{"name":"u2p14","parent":"bt.uint16","desc":"fixdt(1,16,14)","family":"unsigned"},{"name":"u32","parent":"bt.uint32","desc":"fixdt(1,32,0)","family":"unsigned"},{"name":"u3p13","parent":"bt.uint16","desc":"fixdt(1,16,13)","family":"unsigned"},{"name":"u4p12","parent":"bt.uint16","desc":"fixdt(1,16,12)","family":"unsigned"},{"name":"u5p11","parent":"bt.uint16","desc":"fixdt(1,16,11)","family":"unsigned"},{"name":"u5p27","parent":"bt.uint32","desc":"fixdt(1,32,27)","family":"unsigned"},{"name":"u6p10","parent":"bt.uint16","desc":"fixdt(1,16,10)","family":"unsigned"},{"name":"u7p9","parent":"bt.uint16","desc":"fixdt(1,16,9)","family":"unsigned"},{"name":"u8p8","parent":"bt.uint16","desc":"fixdt(1,16,8)","family":"unsigned"},{"name":"u9p7","parent":"bt.uint16","desc":"fixdt(1,16,7)","family":"unsigned"},{"name":"um10p26","parent":"bt.uint16","desc":"fixdt(1,16,26)","family":"mixed"},{"name":"um11p27","parent":"bt.uint16","desc":"fixdt(1,16,27)","family":"mixed"},{"name":"um1p17","parent":"bt.uint16","desc":"fixdt(1,16,17)","family":"mixed"},{"name":"um2p18","parent":"bt.uint16","desc":"fixdt(1,16,18)","family":"mixed"},{"name":"um3p19","parent":"bt.uint16","desc":"fixdt(1,16,19)","family":"mixed"},{"name":"um4p20","parent":"bt.uint16","desc":"fixdt(1,16,20)","family":"mixed"},{"name":"um5p21","parent":"bt.uint16","desc":"fixdt(1,16,21)","family":"mixed"},{"name":"um6p22","parent":"bt.uint16","desc":"fixdt(1,16,22)","family":"mixed"},{"name":"um7p23","parent":"bt.uint16","desc":"fixdt(1,16,23)","family":"mixed"},{"name":"um8p24","parent":"bt.uint16","desc":"fixdt(1,16,24)","family":"mixed"},{"name":"um9p25","parent":"bt.uint16","desc":"fixdt(1,16,25)","family":"mixed"}];
+const families = ['All', 'signed', 'unsigned', 'mixed', 'float', 'binary', 'logic'];
+---
+
+<div data-dt-explorer>
+  <input class="searchbox" type="search" placeholder="Filter types — try “16”, “fixdt(1,32”, “sint8”…" aria-label="Filter data types" data-search />
+  <div class="pill-row" data-pills>
+    {families.map((f) => (
+      <button class="pill" data-family={f} aria-pressed={f === 'All' ? 'true' : 'false'}>{f}</button>
+    ))}
+  </div>
+  <p data-count aria-live="polite"></p>
+  <div style="overflow-x: auto">
+    <table class="docs-table" data-table>
+      <thead><tr><th>Type</th><th>Family</th><th>Base class</th><th>Meaning</th></tr></thead>
+      <tbody>
+        {types.map((t) => (
+          <tr data-name={t.name.toLowerCase()} data-family={t.family} data-hay={`${t.name} ${t.parent} ${t.desc}`.toLowerCase()}>
+            <td><code>dt.{t.name}</code></td>
+            <td>{t.family}</td>
+            <td><code>{t.parent}</code></td>
+            <td>{t.desc || '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const root = document.querySelector('[data-dt-explorer]');
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = 'true';
+    const search = root.querySelector('[data-search]');
+    const rows = [...root.querySelectorAll('tbody tr')];
+    const count = root.querySelector('[data-count]');
+    let family = 'All';
+    const apply = () => {
+      const q = search.value.trim().toLowerCase();
+      let n = 0;
+      for (const r of rows) {
+        const ok =
+          (family === 'All' || r.dataset.family === family) &&
+          (!q || r.dataset.hay.includes(q));
+        r.style.display = ok ? '' : 'none';
+        if (ok) n++;
+      }
+      count.textContent = `${n} of ${rows.length} types shown`;
+    };
+    root.querySelector('[data-pills]').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-family]');
+      if (!b) return;
+      family = b.dataset.family;
+      root.querySelectorAll('[data-pills] .pill').forEach((p) =>
+        p.setAttribute('aria-pressed', String(p === b)),
+      );
+      apply();
+    });
+    search.addEventListener('input', apply);
+    apply();
+  })();
+</script>

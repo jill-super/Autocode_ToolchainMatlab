@@ -1,0 +1,24 @@
+---
+title: Testing tools overview
+description: MIL/SIL validation, test-definition management and the report pipeline.
+---
+
+import ToolExplorer from '../../../components/ToolExplorer.astro';
+
+The `Testing_Tools` area validates what design produced: it scaffolds test parameters from dictionaries, gates test definitions, executes MIL/SIL, and turns results into plots, reports and traceability exports.
+
+## Browse every tool
+
+<ToolExplorer />
+
+## The validation loop
+
+1. **Set up** — `MakeTestCals` scaffolds parameter files; `CreateLCTFiles` builds interface files. Details: [Test definition files](test-definition/).
+2. **Gate** — `NxtrTDMgr` / `NxtrTDChkr` / `NxtrReadTD` verify definitions; `NxtrMdlChkr` fixes harness settings; `NxtrReadDD` / `NxtrReadMdl` cross-read dictionaries and models.
+3. **Execute** — `MIL` ([MIL workflow](mil/)), then `Run_SIL` ([SIL & helpers](sil-and-helpers/)).
+4. **Analyze & report** — `PlotSimData`, `SaveSimData`, and the `NxtrRprt*` / `NxtrAdd*` / `NxtrTbl*` / `NxtrXlsWrite` pipeline plus `NxtrWrdFindrGUI`, `NxtrSigFindr`, `NxtrKeyWrdFindr`, `NxtrReqAnlyzr`.
+5. **Trace** — `simulink2doors`, `testdef2doors` export CSVs for the requirements tool.
+
+:::caution[Legacy entry points]
+`Run_MIL` is a retired stub — it only tells you to use `MIL`. Start every MIL run from the `MIL` GUI.
+:::

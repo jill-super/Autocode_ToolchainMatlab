@@ -1,0 +1,33 @@
+---
+title: Data management overview
+description: Dictionary classes, base types, fixed-point types and helpers.
+---
+
+The `Data_Management` area is the foundation everything else builds on. It defines **what can be said** about a component (the `DataDict.*` vocabulary), **how values are typed** (`bt.*`, `dt.*`), and **how objects become dictionary text** (helpers + `String` methods).
+
+## Map of the area
+
+| Folder / file | Contains | Details |
+| --- | --- | --- |
+| `+DataDict/` | 21 dictionary classes + `csc_registration` | [Data classes](data-classes/) |
+| `+bt/` | 11 base-type wrappers | [Base types](base-types/) |
+| `+dt/` | 94 ready-to-use concrete types | [Fixed-point types](fixed-point-types/) |
+| `CommonFunctions/` | `Val2String`, `MinMax2String`, `WriteDescription` | [Helpers & aliases](common-functions/) |
+| `DataTypeAlias_*.m` | AUTOSAR alias tables | [Helpers & aliases](common-functions/) |
+| `History_DataMgt.m` | Version log for this area | [Changelog](../reference/changelog/) |
+
+## The core idea
+
+```matlab
+c = DataDict.Calibration;   % 1. pick a class (the "what")
+c.EngDT = dt.s16;           % 2. pick a type (the "how")
+c.EngVal = 10;              % 3. give it a value
+```
+
+Each object validates its own properties on assignment (ranges, allowed values, naming patterns) and knows how to render itself into dictionary source through its `String` method. `CreateDD` simply collects the workspace objects and concatenates their rendered text; `VerifyDD` re-parses that text and checks the rules again plus cross-checks against the model.
+
+## Choosing a page
+
+- Need the right class for a signal, parameter or runnable? → [Data classes](data-classes/)
+- Need the right type for a value? → [Base types](base-types/) then [Fixed-point types](fixed-point-types/)
+- Wonder how values/ranges/descriptions become text? → [Helpers & aliases](common-functions/)
